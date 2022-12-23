@@ -26,7 +26,7 @@ pip install -r requirements.txt
 pip install -r requirements.txt
 ```
 
-# Project directory
+# Project Structure
 ```
 capstone-final/
 ├── README.md               # overview of the project
