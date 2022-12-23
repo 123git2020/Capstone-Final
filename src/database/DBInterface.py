@@ -8,10 +8,10 @@ class DBInterface:
         
     def insert_entry(self, audio_path, labels):
         try:
-            self._cur.execute(f"INSERT INTO audio(audio_path, audio_metadata, labels) VALUES(%s, %s, %s);", (audio_path, labels))
+            self._cur.execute(f"INSERT INTO audio(audio_path, labels) VALUES(%s, %s);", (audio_path, labels))
             self._conn.commit()
-        except: 
-            print("issue with insert")
+        except Exception as e: 
+            print(f'Database insert entry error: {e}')
             self._conn.rollback()
 
     def retrieve_by_filename(self, audio_path):
