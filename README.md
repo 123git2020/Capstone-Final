@@ -9,21 +9,21 @@ Linux or Windows. Python 3.6 or higher is needed.
 1. Set up a virtual environment.
 ```
 # Linux
-python -m venv venv
-source venv/bin/activate
+$ python -m venv venv
+$ source venv/bin/activate
 
 # Windows
-python -m venv venv
+> python -m venv venv
 ```
 
 2. Install required dependencies.
 ```
 # Linux
-sudo apt-get install libpq-dev python3.x-dev          # replace the x with the version of python you're using
-pip install -r requirements.txt
+$ sudo apt-get install libpq-dev python3.x-dev          # replace the x with the version of python you're using
+$ pip install -r requirements.txt
 
 # Windows
-pip install -r requirements.txt
+> pip install -r requirements.txt
 ```
 
 # Project Structure
