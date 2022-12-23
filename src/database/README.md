@@ -1,5 +1,6 @@
 # Database Schema
-Database: classification_db
+Database: classification_db  
+
 Table: audio
 
 | audio_path | labels |
