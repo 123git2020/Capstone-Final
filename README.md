@@ -1,4 +1,5 @@
-TODO: venv setup for windows, include the line below in a setup file
+TODO: venv setup for windows, include the line below in a setup file  
+
 Note: Development is currently being done in Linux so the instructions for Windows may not be completely correct. Currently only works with a local version of the postgres database. 
 
 # Requirements
