@@ -19,11 +19,11 @@ $ source venv/bin/activate
 
 2. Install required dependencies.
 ```
-### Linux
+# Linux
 $ sudo apt-get install libpq-dev python3.x-dev          # replace the x with the version of python you're using
 $ pip install -r requirements.txt
 
-### Windows
+# Windows
 > pip install -r requirements.txt
 ```
 
