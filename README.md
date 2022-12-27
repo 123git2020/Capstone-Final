@@ -1,11 +1,12 @@
+# Audio Classifier
 TODO: venv setup for windows
 
 Note: Development is currently being done in Linux so the instructions for Windows may not be completely correct. Currently only works with a local version of the postgres database. 
 
-# Requirements
+## Requirements
 Linux or Windows. Python 3.6 or higher is needed.
 
-# Quickstart
+## Quickstart
 1. Set up a virtual environment.
 ```
 # Linux
@@ -18,15 +19,15 @@ $ source venv/bin/activate
 
 2. Install required dependencies.
 ```
-# Linux
+### Linux
 $ sudo apt-get install libpq-dev python3.x-dev          # replace the x with the version of python you're using
 $ pip install -r requirements.txt
 
-# Windows
+### Windows
 > pip install -r requirements.txt
 ```
 
-# Project Structure
+## Project Structure
 ```
 capstone-final/
 ├── README.md               # overview of the project
