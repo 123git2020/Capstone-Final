@@ -1,6 +1,6 @@
 import pandas as pd
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
     df = pd.read_csv('data\datasets\processed_datasets\combined_dataset\combined.csv')
     seen = set()
     for x in df['fname']:
