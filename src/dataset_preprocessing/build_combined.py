@@ -7,10 +7,9 @@ import re
 data = {'fname': [], 'car_horn': [], 'car_passing': [], 'engine': [], 'siren': [], 'speech': [], 'footsteps': []}
 
 # Processing isolated urban sound database
-df = pd.read_csv('data/datasets/processed_datasets/processed_isolated_urban_sound_database/ProcessedIsolatedUrban.csv')
 regex = r"carHorn|cityCar|cityStep|roadCar|stepCity|stopCar|stepPark|voice"
 
-for filename in os.listdir('original_datasets/isolated_urban_sound_database/background/'):
+for filename in os.listdir('data/datasets/original_datasets/isolated_urban_sound_database/background/'):
     if re.search(regex, filename) != None:
         shutil.copy(
             f'data/datasets/original_datasets/isolated_urban_sound_database/background/{filename}',
@@ -99,7 +98,7 @@ for index, row in df_us8k.iterrows():
             data['siren'].append(1)
         shutil.copy(
             f'data/datasets/original_datasets/urban_sound_8k/fold{row["fold"]}/{row["slice_file_name"]}', 
-            f'data/datasets/processed_datasets/processed_urban_sound_8k/data/'
+            f'data/datasets/processed_datasets/combined_dataset/data/'
         )
         
 df_us8k.drop(columns=['class', 'fold'], inplace=True)
