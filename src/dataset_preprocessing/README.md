@@ -1,0 +1,1 @@
+`build_combined.py` should be run from the project directory. It assumes that Isolated Urban Sound Database, SONYC, and UrbanSound8k has been unzipped into the `data/datasets/original_datasets` folder.
