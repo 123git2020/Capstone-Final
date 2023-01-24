@@ -72,9 +72,7 @@ for index, row in df_sonyc.iterrows():
 # Processing UrbanSound8k
 regex2 = r'engine_idling|car_horn|siren'
 df_us8k = pd.read_csv('data/datasets/original_datasets/urban_sound_8k/UrbanSound8K.csv')
-# df_us8k.rename({'slice_file_name': 'fname'}, inplace=True)
 df_us8k.set_index('slice_file_name', inplace=True)
-# df_us8k.drop(columns=['start', 'end', 'salience', 'fsID', 'classID'], inplace=True)
 try:
     df_us8k = df_us8k.reset_index()  # make sure indexes pair with number of rows
 except:
@@ -101,8 +99,6 @@ for index, row in df_us8k.iterrows():
             f'data/datasets/original_datasets/urban_sound_8k/fold{row["fold"]}/{row["slice_file_name"]}', 
             f'data/datasets/processed_datasets/combined_dataset/data/'
         )
-        
-# df_us8k.drop(columns=['class', 'fold'], inplace=True)
 
 # Processing ESC-50
 regex3 = r'siren|car_horn|engine'
@@ -129,7 +125,6 @@ for index, row in df_esc50.iterrows():
             f'data/datasets/processed_datasets/combined_dataset/data/'
         )
 
-    
 df_final = pd.DataFrame(data)
 result = pd.concat([df_final, df_sonyc])
 result.set_index('fname', inplace=True)
