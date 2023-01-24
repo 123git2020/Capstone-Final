@@ -4,7 +4,7 @@ The `audio` table represents each audio file. The `event` table represents the d
 ### Table: audio
 
 | audio_id | start_time | audio_length | path | LAeq | LAmax | LCpeak | TWA | 
-| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | 
+| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | 
 | int | timestamp without timezone ex. `2023-01-08 17:41:16.763289` | numeric | text, relative path | numeric | numeric | numeric | numeric |
 
 ### Table: event
