@@ -16,7 +16,7 @@ class DBInterface:
             
     def insert_entry(self, audio_id, start_time, end_time, path, label):
         try:
-            self._cur.execute(f"INSERT INTO event(audio_id, start_time, end_time, path, label) VALUES(now(), %s, %s, %s, %s, %s);", (audio_id, start_time, end_time, path, label,))
+            self._cur.execute(f"INSERT INTO event(audio_id, start_time, end_time, path, label) VALUES(%s, %s, %s, %s, %s);", (audio_id, start_time, end_time, path, label,))
             self._conn.commit()
         except Exception as e: 
             print(f'Event insert entry error: {e}')

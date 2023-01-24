@@ -1,5 +1,5 @@
 # Database Schema: classification_db  
-The `audio` table represents each audio file. The `event` table represents the different audio sources present in each audio file and has a many-to-one relationship with the `audio` table. Deleting an entry from the `audio` table will delete the corresponding entry from the `event` table.
+The `audio` table represents each audio file. The `event` table represents the different audio sources present in each audio file and has a many-to-one relationship with the `audio` table. Deleting an entry from the `audio` table will delete the corresponding entry from the `event` table, so only remove from the `audio` table. `audio_id` in the `audio` table is generated, so do not insert a value for `audio_id` when inserting into the `audio` table.
 
 ### Table: audio
 
@@ -16,82 +16,32 @@ The `audio` table represents each audio file. The `event` table represents the d
 To create the tables, enter the following SQL statements.
 ```
 CREATE TABLE audio (
-    "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    ts TIMESTAMP,
-    audio_path TEXT,
-    car_horn BOOLEAN DEFAULT FALSE,
-    car_passing BOOLEAN DEFAULT FALSE,
-    engine BOOLEAN DEFAULT FALSE,
-    siren BOOLEAN DEFAULT FALSE,
-    speech BOOLEAN DEFAULT FALSE,
-    footsteps BOOLEAN DEFAULT FALSE
+    audio_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    start_time TIMESTAMP,
+    audio_length NUMERIC,
+    path TEXT,
+    "LAeq" NUMERIC,
+    "LAmax" NUMERIC,
+    "LCpeak" NUMERIC,
+    "TWA" NUMERIC
 );
-```
-Create a table for each of the labels while replacing the name.
-```
-CREATE TABLE car_passing (
-    "id" INT,
-    ts TIMESTAMP,
-    audio_path TEXT,
-    car_passing_label BOOLEAN DEFAULT FALSE
+
+CREATE TABLE event (
+    event_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    audio_id INT REFERENCES audio(audio_id) ON DELETE CASCADE,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    path TEXT,
+    class TEXT
 );
-```
-Create triggers to create or delete rows when rows get inserted or deleted from `audio`.
-```
-CREATE OR REPLACE FUNCTION insert_child_tables()
-    RETURNS TRIGGER
-    LANGUAGE PLPGSQL
-  AS
-$$
-BEGIN
-    INSERT INTO car_horn(id, ts, car_horn_label, audio_path)
-    VALUES(NEW.id, NEW.ts, NEW.car_horn, NEW.audio_path);
-    INSERT INTO car_passing(id, ts, car_passing_label, audio_path)
-    VALUES(NEW.id, NEW.ts, NEW.car_passing, NEW.audio_path);
-    INSERT INTO engine(id, ts, engine_label, audio_path)
-    VALUES(NEW.id, NEW.ts, NEW.engine, NEW.audio_path);
-    INSERT INTO siren(id, ts, siren_label, audio_path)
-    VALUES(NEW.id, NEW.ts, NEW.siren, NEW.audio_path);
-    INSERT INTO speech(id, ts, speech_label, audio_path)
-    VALUES(NEW.id, NEW.ts, NEW.speech, NEW.audio_path);
-    INSERT INTO footsteps(id, ts, footsteps_label, audio_path)
-    VALUES(NEW.id, NEW.ts, NEW.footsteps, NEW.audio_path);
-	RETURN NEW;
-END;
-$$
-
-CREATE OR REPLACE FUNCTION delete_child_tables()
-    RETURNS TRIGGER
-    LANGUAGE PLPGSQL
-  AS
-$$
-BEGIN
-    DELETE FROM car_horn WHERE id=OLD.id;
-    DELETE FROM car_passing WHERE id=OLD.id;
-    DELETE FROM engine WHERE id=OLD.id;
-    DELETE FROM siren WHERE id=OLD.id;
-    DELETE FROM speech WHERE id=OLD.id;
-    DELETE FROM footsteps WHERE id=OLD.id;
-	RETURN NEW;
-END;
-$$
-
-CREATE TRIGGER insert_children
-    BEFORE INSERT
-    ON audio
-    FOR EACH ROW
-    EXECUTE PROCEDURE insert_child_tables();
-
-CREATE TRIGGER delete_children
-    AFTER DELETE
-    ON audio
-    FOR EACH ROW
-    EXECUTE PROCEDURE delete_child_tables();
 ```
 To create some dummy data, use the following statements to insert and delete.
 ```
-INSERT INTO audio(ts, car_horn, car_passing, engine, siren, speech, footsteps, audio_path)
+INSERT INTO audio(start_time, audio_length, path, "LAeq", "LAmax", "LCpeak", "TWA")
 VALUES (now(), TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, 'test123');
+
+INSERT INTO event(audio_id, start_time, end_time, path, label)
+VALUES({val_from_audio}, now(), now()+1, test123, car_horn);"
 
 DELETE FROM audio WHERE id=1;
 ```
