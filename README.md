@@ -21,6 +21,7 @@ $ source venv/bin/activate
 ```
 # Linux
 $ sudo apt-get install libpq-dev python3.x-dev          # replace the x with the version of python you're using
+$ sudo apt-get install libportaudio2
 $ pip install -r requirements.txt
 
 # Windows
