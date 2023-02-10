@@ -28,7 +28,7 @@ $ pip install -r requirements.txt
 > pip install -r requirements.txt
 ```
 
-3. Download the fine-tune trained model [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://msranlcmtteamdrive.blob.core.windows.net/share/BEATs/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt?sv=2020-08-04&st=2022-12-18T10%3A41%3A16Z&se=3022-12-19T10%3A41%3A00Z&sr=b&sp=r&sig=gSSExKP0otwVBgKwdV8FoMWL2VppARFq%2B26xKin5rKw%3D and put it in the `src/model/beats` directory.
+3. Download the fine-tune trained model [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://msranlcmtteamdrive.blob.core.windows.net/share/BEATs/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt?sv=2020-08-04&st=2022-12-18T10%3A41%3A16Z&se=3022-12-19T10%3A41%3A00Z&sr=b&sp=r&sig=gSSExKP0otwVBgKwdV8FoMWL2VppARFq%2B26xKin5rKw%3D) and put it in the `src/model/beats` directory.
 
 ## Project Structure
 ```
