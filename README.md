@@ -54,4 +54,4 @@ capstone-final/
 `cityCar28.wav` from Isolated Urban Sound Database was removed as it doesn't have any sounds in it. 
 
 ## Classification Models
-BEATs is currently being used. The repository can be found [here] (https://github.com/microsoft/unilm/tree/master/beats) and the paper can be found [here] (https://arxiv.org/abs/2212.09058).
+BEATs is currently being used. The repository can be found [here](https://github.com/microsoft/unilm/tree/master/beats) and the paper can be found [here](https://arxiv.org/abs/2212.09058).
