@@ -4,6 +4,7 @@ import numpy as np
 import datetime
 import random
 env = dotenv_values('.env')
+labels = ['car_horn', 'car_passing', 'engine', 'siren']
 
 if __name__ == '__main__':
     db = DBInterface("classification_db", "TL63", env['PASSWORD'], 5432)
@@ -15,6 +16,12 @@ if __name__ == '__main__':
             audio_id = audio_entry[0]
             start_time = audio_entry[1]
             path = audio_entry[3]
-            label = random.choice(['car_horn', 'car_passing', 'engine', 'siren'])
-            end_time = datetime.datetime(2023, 1, day, start_time.hour, 0, 1)
+            label = random.choice(labels)
+            hour = start_time.hour
+            end_time = datetime.datetime(2023, 1, day, hour, 0, 2)
             db.insert_entry(audio_id, start_time, end_time, f'test{day}-{i}', label)
+            if random.random() < 0.3:
+                start_time = datetime.datetime(2023, 1, day, hour, 0, 1)
+                new_labels = labels.copy()
+                new_labels.remove(label)
+                db.insert_entry(audio_id, start_time, end_time, f'test{day}-{i}', random.choice(new_labels))

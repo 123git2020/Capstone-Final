@@ -8,42 +8,37 @@ data = {'fname': [], 'source': [], 'car_horn': [], 'car_passing': [], 'engine': 
 
 # Processing isolated urban sound database
 regex = r"carHorn|cityCar|roadCar|stopCar|voice"
-
-for filename in os.listdir('data/datasets/original_datasets/isolated_urban_sound_database/background/'):
-    if re.search(regex, filename) != None:
-        shutil.copy(
-            f'data/datasets/original_datasets/isolated_urban_sound_database/background/{filename}',
-            f'data/datasets/processed_datasets/combined_dataset/data/'
-        )
         
 for filename in os.listdir('data/datasets/original_datasets/isolated_urban_sound_database/event/'):
-    if re.search(regex, filename) != None:
-        shutil.copy(
-            f'data/datasets/original_datasets/isolated_urban_sound_database/event/{filename}',
-            f'data/datasets/processed_datasets/combined_dataset/data/'
-        )
+    if not filename == "cityCar28.wav":
+        if re.search(regex, filename) != None:
+            shutil.copy(
+                f'data/datasets/original_datasets/isolated_urban_sound_database/event/{filename}',
+                f'data/datasets/processed_datasets/combined_dataset/data/'
+            )
         
 for filename in os.listdir('data/datasets/processed_datasets/combined_dataset/data/'):
-    data['fname'].append(filename)
-    for label in data:
-        if label == 'source':
-            data[label].append('isolated')
-        elif not label == 'fname':
-            data[label].append(0)
-            
-    match = re.findall(regex, filename)[0]
-    if match == 'carHorn':
-        data['car_horn'].pop()
-        data['car_horn'].append(1)
-    elif match == 'cityCar' or match == 'roadCar':
-        data['car_passing'].pop()
-        data['car_passing'].append(1)
-    elif match == 'stopCar':
-        data['engine'].pop()
-        data['engine'].append(1)
-    elif match == 'voice':
-        data['speech'].pop()
-        data['speech'].append(1)
+    if not filename == "cityCar28.wav":
+        data['fname'].append(filename)
+        for label in data:
+            if label == 'source':
+                data[label].append('isolated')
+            elif not label == 'fname':
+                data[label].append(0)
+                
+        match = re.findall(regex, filename)[0]
+        if match == 'carHorn':
+            data['car_horn'].pop()
+            data['car_horn'].append(1)
+        elif match == 'cityCar' or match == 'roadCar':
+            data['car_passing'].pop()
+            data['car_passing'].append(1)
+        elif match == 'stopCar':
+            data['engine'].pop()
+            data['engine'].append(1)
+        elif match == 'voice':
+            data['speech'].pop()
+            data['speech'].append(1)
         
 # Processing SONYC
 df = pd.read_csv('data/datasets/original_datasets/SONYC/annotations.csv')

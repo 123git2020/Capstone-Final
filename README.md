@@ -42,3 +42,6 @@ capstone-final/
     ├── metrics/            # contains code for calculating metrics
     └── model/              # contains code for the model
 ```
+
+## Datasets
+`cityCar28.wav` from Isolated Urban Sound Database was removed as it doesn't have any sounds in it. 
