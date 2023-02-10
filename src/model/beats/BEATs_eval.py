@@ -1,14 +1,11 @@
-import sys
-import os
-
 import torch, torchaudio
 import pandas as pd
 
-from BEATs import BEATs, BEATsConfig
+from .BEATs import BEATs, BEATsConfig
 
-def BEATs_eval():
+class BEATs_eval():
     def __init__(self):
-        self.checkpoint = torch.load('../model/beats/model.pt')
+        self.checkpoint = torch.load('src/model/beats/model.pt')
 
         cfg = BEATsConfig(self.checkpoint['cfg'])
         self.BEATs_model = BEATs(cfg)
@@ -29,7 +26,7 @@ def BEATs_eval():
 
         for i, (top5_label_prob, top5_label_idx) in enumerate(zip(*probs.topk(k=5))):
             top5_label = [self.label_class[self.checkpoint['label_dict'][label_idx.item()]] for label_idx in top5_label_idx]
-            print(f'Top 5 predicted labels of the {i}th audio are {top5_label} with probability of {top5_label_prob}')
+            print(f'Top 5 predicted labels of the {i}th audio are {top5_label} with probability of {top5_label_prob.tolist()}')
             return (top5_label, top5_label_prob)  
         
     

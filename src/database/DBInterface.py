@@ -1,6 +1,7 @@
 # pip install psycopg2
 import psycopg2
 import datetime
+
 class DBInterface:
     def __init__(self, dbname, user, password, port):
         self._conn = psycopg2.connect(dbname=dbname, user=user, password=password, port=port)
