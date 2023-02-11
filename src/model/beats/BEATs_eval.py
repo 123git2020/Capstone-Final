@@ -5,7 +5,7 @@ from .BEATs import BEATs, BEATsConfig
 
 class BEATs_eval():
     def __init__(self):
-        self.checkpoint = torch.load('src/model/beats/model.pt')
+        self.checkpoint = torch.load('src/model/beats/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt')
 
         cfg = BEATsConfig(self.checkpoint['cfg'])
         self.BEATs_model = BEATs(cfg)
