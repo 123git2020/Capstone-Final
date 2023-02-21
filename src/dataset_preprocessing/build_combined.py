@@ -5,64 +5,6 @@ import os
 import re
 
 data = {'fname': [], 'source': [], 'car_horn': [], 'car_passing': [], 'engine': [], 'siren': [], 'speech': []}
-
-# Processing isolated urban sound database
-regex = r"carHorn|cityCar|roadCar|stopCar|voice"
-        
-for filename in os.listdir('data/datasets/original_datasets/isolated_urban_sound_database/event/'):
-    if not filename == "cityCar28.wav":
-        if re.search(regex, filename) != None:
-            shutil.copy(
-                f'data/datasets/original_datasets/isolated_urban_sound_database/event/{filename}',
-                f'data/datasets/processed_datasets/combined_dataset/data/'
-            )
-        
-for filename in os.listdir('data/datasets/processed_datasets/combined_dataset/data/'):
-    if not filename == "cityCar28.wav":
-        data['fname'].append(filename)
-        for label in data:
-            if label == 'source':
-                data[label].append('isolated')
-            elif not label == 'fname':
-                data[label].append(0)
-                
-        match = re.findall(regex, filename)[0]
-        if match == 'carHorn':
-            data['car_horn'].pop()
-            data['car_horn'].append(1)
-        elif match == 'cityCar' or match == 'roadCar':
-            data['car_passing'].pop()
-            data['car_passing'].append(1)
-        elif match == 'stopCar':
-            data['engine'].pop()
-            data['engine'].append(1)
-        elif match == 'voice':
-            data['speech'].pop()
-            data['speech'].append(1)
-        
-# Processing SONYC
-df = pd.read_csv('data/datasets/original_datasets/SONYC/annotations.csv')
-df_sonyc = pd.DataFrame({'fname': []}).set_index('fname')
-df_sonyc['fname'] = df['audio_filename']
-df_sonyc['source'] = ['sonyc'] * len(df['audio_filename'])
-df_sonyc['car_horn'] = [int(x) for x in df['5-1_car-horn_presence']]
-df_sonyc['car_passing'] = [0] * len(df['audio_filename'])
-df_sonyc['engine'] = [int(x) for x in df['1_engine_presence']]
-df_sonyc['siren'] = [int(x) for x in df['5-3_siren_presence']]
-df_sonyc['speech'] = [int(x) for x in df['7_human-voice_presence']]
-df_sonyc.drop_duplicates(subset="fname", keep='first', inplace=True)
-df_sonyc.drop(df_sonyc[df_sonyc['engine'] + df_sonyc['car_horn'] + df_sonyc['siren'] + df_sonyc['speech'] == 0].index, inplace=True)
-
-try:
-    df_sonyc = df_sonyc.reset_index()  # make sure indexes pair with number of rows
-except:
-    print("index already at the beginning")
-
-for index, row in df_sonyc.iterrows():
-    shutil.copy(
-        f'data/datasets/original_datasets/SONYC/data/{row["fname"]}', 
-        f'data/datasets/processed_datasets/combined_dataset/data/'
-    )
     
 # Processing UrbanSound8k
 regex2 = r'engine_idling|car_horn|siren'
@@ -119,8 +61,43 @@ for index, row in df_esc50.iterrows():
             f'data/datasets/original_datasets/ESC-50-master/audio/{row["filename"]}', 
             f'data/datasets/processed_datasets/combined_dataset/data/'
         )
+        
+# Processing FSD50k
+regex4 = r'engine|Vehicle_horn_and_car_horn_and_honking|siren|car_passing_by'
+unwanted_classes = r'drill|power_tool|tools|sawing|boat_and_water_vehicle|train|rail_transport|aircraft'
+df_fsd50k = pd.read_csv('data\datasets\original_datasets/fsd50k\dev.csv')
+new_df = pd.DataFrame(columns=['fname', 'labels', 'mids', 'split'])
+for index, row in df_fsd50k.iterrows():
+    if re.search(regex3, row['labels']) != None and re.search(unwanted_classes, row['category']) == None:
+        data['fname'].append(row['filename'])
+        for label in data:
+            if label == 'source':
+                data[label].append('fsd50k')
+            elif not label == 'fname':
+                data[label].append(0)
+        if row['labels'] == 'Vehicle_horn_and_car_horn_and_honking':
+            data['car_horn'].pop()
+            data['car_horn'].append(1)
+        elif row['labels'] == 'engine':
+            data['engine'].pop()
+            data['engine'].append(1)
+        elif row['labels'] == 'siren':
+            data['siren'].pop()
+            data['siren'].append(1)
+        elif row['labels'] == 'car_passing_by':
+            data['car_passing'].pop()
+            data['car_passing'].append(1)
+            
+        new_row = {'fname': row['fname'], 'labels': row['labels'], 'mids': row['mids'], 'split': row['split']}
+        new_df.append(new_row, ignore_index=True)
+            
+        shutil.copy(
+            f'data/datasets/original_datasets/ESC-50-master/audio/{row["filename"]}', 
+            f'data/datasets/processed_datasets/combined_dataset/data/'
+        )
+
+new_df.to_csv('data/datasets/processed_datasets/combined_dataset/fsd50k_dev.csv')
 
 df_final = pd.DataFrame(data)
-result = pd.concat([df_final, df_sonyc])
-result.set_index('fname', inplace=True)
-result.to_csv('data/datasets/processed_datasets/combined_dataset/combined.csv')
+df_final.set_index('fname', inplace=True)
+df_final.to_csv('data/datasets/processed_datasets/combined_dataset/combined.csv')
